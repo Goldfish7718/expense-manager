@@ -18,6 +18,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    assets:[
+        {
+            worth: Number,
+            name: String,
+        }
+    ],
+    netWorth: {
+        type: Number,
+        required: true
+    },
+    currency: {
+        type: String,
+        required: true
+    }
 })
 
 const User  = mongoose.model('User', userSchema);

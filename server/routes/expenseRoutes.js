@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { createExpense, postExpense } from "../controllers/expenseControllers.js";
+import { createExpense, getExpense, postExpense } from "../controllers/expenseControllers.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = Router();
 
-router.get('/create-expense', verifyToken, createExpense);
+router.get('/get-expense', verifyToken, getExpense)
+router.post('/create-expense', verifyToken, createExpense);
 router.post('/post-expense', verifyToken, postExpense);
 
 export default router;

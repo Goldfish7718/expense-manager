@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
 import User from '../models/userSchema.js'
 import generateToken from '../middleware/generateToken.js'
+import calcNetWorth from '../middleware/calcNetWorth.js'
 
 export const signupUser = async (req, res) => {
 
@@ -10,11 +10,13 @@ export const signupUser = async (req, res) => {
             firstName,
             lastName,
             userName,
-            password
+            password,
+            assets,
+            currency
         } = req.body;
 
         // INPUT VALIDATION
-        const emptyField = !firstName || !lastName || !userName || !password;
+        const emptyField = !firstName || !lastName || !userName || !password || assets.length < 1 || !currency;
 
         if (emptyField)
             return res
@@ -32,12 +34,18 @@ export const signupUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
+        // CALCULATE NET WORTH
+        const netWorth = calcNetWorth(assets);
+
         // SAVING USER
         const newUser = new User({
             firstName,
             lastName,
             userName,
             password: hashedPassword,
+            assets,
+            netWorth,
+            currency
         })
 
         await newUser.save();

@@ -5,6 +5,15 @@ const expenseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    balance: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    currency: {
+        type: String,
+        required: true
+    },
     expenses: [
         {
             amount: {
@@ -12,6 +21,9 @@ const expenseSchema = new mongoose.Schema({
             },
             reference: {
                 type: String,
+            },
+            balanceStamp: {
+                type: Number
             }
         }
     ]
